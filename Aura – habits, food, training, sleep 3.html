@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aura – habits, food, training, sleep</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#000;--surf:#0d0d10;--surf2:#17171c;--ink:#f4f4f6;--mute:#8a8a97;--line:#25252c;
+--acc:#a99bff;--acc-ink:#0a0a14;--hi:#ff6b9a;--c:#f4f4f6;--ci:#050505;
+--disp:"Unbounded","Arial Black","Segoe UI",system-ui,sans-serif;
+--body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--body);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+main{max-width:560px;margin:0 auto;padding:18px 18px 130px}
+section{scroll-margin-top:12px}
+.hd{display:flex;justify-content:space-between;align-items:baseline}
+.brand{font:800 1.4rem var(--disp);letter-spacing:-.03em}
+.lvrow{display:flex;align-items:center;gap:12px;margin:12px 0 18px}
+#lvl{font:700 .78rem var(--disp);color:var(--hi);white-space:nowrap}
+.xp{flex:1;height:6px;border-radius:4px;background:var(--line);overflow:hidden}
+#xpF{display:block;height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,var(--acc),var(--hi));transition:width .7s}
+#xpV{font-size:.8rem}
+.hud{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.hb{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"i v" "l l" "b b";align-items:center;row-gap:2px;background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:12px 14px 15px;color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:transform .12s,border-color .2s,box-shadow .3s}
+.hb:active{transform:scale(.97)}
+.hb:hover{border-color:var(--c)}
+.hb.full{border-color:var(--c);box-shadow:0 0 24px -8px var(--c)}
+.hi{grid-area:i;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:#1c1c22;background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c)}
+.hi svg,nav svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hi svg{width:19px;height:19px}
+.hl{grid-area:l;font-weight:600;font-size:.82rem;margin-top:8px;white-space:nowrap}
+.hv{grid-area:v;justify-self:end;font:600 .7rem var(--disp);color:var(--c);text-align:right}
+.hb .hbt{grid-area:b;height:11px;margin:8px 3px 0;background:var(--line);transform:skewX(-20deg);overflow:hidden;-webkit-mask-image:repeating-linear-gradient(90deg,#000 0 10px,transparent 10px 13px);mask-image:repeating-linear-gradient(90deg,#000 0 10px,transparent 10px 13px)}
+.hbt i{display:block;height:100%;width:0;background:var(--c);transition:width .7s}
+h2{font-size:1.02rem;font-weight:700;margin:32px 0 10px;letter-spacing:-.01em}
+section>h2:first-child{margin-top:10px}
+.sub,.meta{color:var(--mute)}.meta{font-size:.88rem}
+details{background:var(--surf);border-radius:18px;padding:0 16px;margin-bottom:6px}
+summary{list-style:none;cursor:pointer;font-weight:600;padding:15px 0;display:flex;align-items:center;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";margin-left:auto;margin-right:4px;width:8px;height:8px;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:rotate(45deg);transition:transform .2s}
+details[open]>summary::after{transform:rotate(-135deg)}
+details .grid{margin-top:0;padding-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+label{display:block;font-size:.8rem;color:var(--mute);font-weight:600}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--surf2);border:1px solid transparent;border-radius:14px;padding:12px 14px;margin-top:5px;min-height:48px;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--c,var(--acc))}
+input::placeholder,textarea::placeholder{color:#5f5f6c}
+select{appearance:none;-webkit-appearance:none;padding-right:36px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%238a8a97' stroke-width='2' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 14px center}
+textarea{min-height:96px;resize:vertical}
+input[type=file]{padding:9px 12px;font-size:.88rem}
+input[type=file]::file-selector-button{background:var(--line);color:var(--ink);border:0;border-radius:9px;padding:6px 12px;margin-right:10px;font:inherit;font-weight:600;cursor:pointer}
+button:focus-visible,summary:focus-visible,nav button:focus-visible{outline:2px solid var(--c,var(--acc));outline-offset:2px}
+.btn{background:var(--c);color:var(--ci);border:0;border-radius:14px;padding:0 20px;min-height:48px;font:700 .95rem var(--body);cursor:pointer;white-space:nowrap;transition:transform .1s,opacity .2s}
+.btn:active{transform:scale(.97)}.btn:disabled{opacity:.45;cursor:wait}
+.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 14px;font:600 .85rem var(--body);cursor:pointer;margin:0 6px 8px 0;transition:border-color .15s}
+.ghost:hover{border-color:var(--c)}.ghost:disabled{opacity:.5}
+.add{display:flex;gap:8px;align-items:stretch;margin-top:12px}
+.add input,.add select{margin:0}
+.add .ghost{margin:0;min-height:48px;display:flex;align-items:center}
+.x{flex:none;width:32px;height:32px;border-radius:50%;background:var(--surf2);border:0;color:var(--mute);font-size:1.1rem;line-height:1;cursor:pointer}
+.line{display:flex;gap:12px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}
+.line:first-child{border-top:0}
+.line>label{flex:1;min-width:0;font-size:1rem;font-weight:500;color:var(--ink);margin:0}
+.line .grow{flex:1;min-width:0}
+.line input[type=checkbox]{appearance:none;-webkit-appearance:none;flex:none;width:26px;height:26px;min-height:0;margin:0;padding:0;border-radius:50%;border:2px solid #3a3a44;background:transparent;cursor:pointer;position:relative;transition:background .2s,border-color .2s}
+.line input[type=checkbox]:checked{background:var(--c);border-color:var(--c)}
+.line input[type=checkbox]:checked::after{content:"";position:absolute;left:8px;top:3px;width:6px;height:12px;border:solid var(--ci);border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.dots{display:flex;gap:4px}.dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}.dots i.on{background:var(--c)}
+.top{display:flex;gap:20px;align-items:center;margin:6px 0 2px}
+#eat{flex:1;min-width:0;--acc:#ffab4d}
+#ringBox svg{display:block}
+#ringBox text{font-family:var(--disp);fill:var(--ink)}
+#ringBox text:last-child{font-family:var(--body);fill:var(--mute)}
+.kcal{font:700 2rem/1 var(--disp);letter-spacing:-.03em}
+.kcal .meta{font:500 .85rem var(--body);letter-spacing:0}
+.bar{height:10px;border-radius:6px;background:var(--line);margin:12px 0 8px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:6px;transition:width .6s}
+#wk{margin:10px 0 0}
+.wk{display:flex;gap:10px;align-items:flex-end;height:120px;margin-top:6px}
+.wb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;font-size:.72rem;color:var(--mute)}
+.wb i{display:block;width:100%;max-width:36px;border-radius:9px;background:var(--c);opacity:.45;transition:height .5s}
+.wb.now i{opacity:1}.wb.now{color:var(--ink)}
+.badge{display:inline-block;padding:7px 13px;margin:0 6px 8px 0;border-radius:999px;border:1px dashed #33333c;color:var(--mute);font-size:.82rem;font-weight:600}
+.badge.on{border:1px solid transparent;color:#0a0a14;background:linear-gradient(120deg,var(--acc),var(--hi))}
+.out{margin-top:16px;padding:2px 0 2px 14px;border-left:3px solid var(--c);white-space:pre-wrap;line-height:1.6}
+.out:empty{display:none}
+.out .warn{border:0;background:none;padding:0;margin:0}
+.warn{background:var(--surf);border-left:3px solid var(--hi);padding:12px 14px;border-radius:12px;margin:12px 0;font-size:.92rem}
+.note{color:var(--mute);font-size:.78rem;margin-top:40px;line-height:1.5}
+#chips,#tchips{display:flex;gap:8px;overflow-x:auto;padding:6px 0 4px}
+#chips .ghost,#tchips .ghost{flex:none;margin:0}
+.chat{display:flex;flex-direction:column;gap:10px;margin:16px 0 8px}
+.msg{padding:11px 15px;border-radius:20px;max-width:86%;white-space:pre-wrap;line-height:1.5}
+.msg.me{align-self:flex-end;background:var(--c);color:var(--ci);border-bottom-right-radius:6px}
+.msg.ai{align-self:flex-start;background:var(--surf2);border-bottom-left-radius:6px}
+#coach>.add,#aicoach>.add{position:sticky;bottom:calc(78px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--bg) 26%);padding:20px 0 10px;margin-top:0}
+svg.sp{width:100%;height:64px;margin-top:8px}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:5;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(58px,1fr);overflow-x:auto;padding:8px max(8px,calc((100vw - 560px)/2)) calc(8px + env(safe-area-inset-bottom,0px));background:rgba(0,0,0,.84);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+nav button{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;color:var(--mute);font:600 .68rem var(--body);cursor:pointer;padding:6px 0;border-radius:12px;transition:color .15s}
+nav svg{width:23px;height:23px;stroke-width:1.9}
+nav button[aria-selected=true]{color:var(--c)}
+nav button[aria-selected=true] svg{filter:drop-shadow(0 0 7px var(--c))}
+#focus{position:fixed;inset:0;background:radial-gradient(circle at 50% 35%,#1b1442,#000 66%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:20;padding-top:env(safe-area-inset-top,0px)}
+#fClock{color:#fff}
+@media (max-width:380px){.hud{gap:8px}.hb{padding:10px 11px 13px}}
+@media (min-width:720px){
+  main{max-width:860px;padding:28px 32px 130px}
+  .hud{grid-template-columns:repeat(4,1fr)}
+  .grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  nav{padding:10px max(16px,calc((100vw - 860px)/2)) calc(10px + env(safe-area-inset-bottom,0px))}
+  nav button{font-size:.75rem}
+  .chat{max-width:640px;margin-left:auto;margin-right:auto}
+}
+.navbrand{display:none}
+@media (min-width:1000px){
+  body{display:flex;align-items:flex-start}
+  .navbrand{display:block;font:800 1.35rem var(--disp);letter-spacing:-.02em;padding:4px 16px 26px;flex:none}
+  nav{position:sticky;top:0;left:auto;right:auto;bottom:auto;order:-1;flex:0 0 232px;width:232px;height:100vh;display:flex;flex-direction:column;align-items:stretch;gap:3px;padding:28px 12px;background:var(--bg);border-top:0;border-right:1px solid var(--line);-webkit-backdrop-filter:none;backdrop-filter:none;overflow-x:visible;z-index:1}
+  nav button{flex-direction:row;justify-content:flex-start;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;font-size:.92rem;font-weight:600;color:var(--mute)}
+  nav button[aria-selected=true]{background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--ink)}
+  nav button[aria-selected=true] svg{filter:none}
+  nav svg{width:20px;height:20px}
+  main{flex:1;max-width:760px;margin:0 auto;padding:40px 40px 60px}
+  .hd .brand{display:none}
+  .hd{justify-content:flex-end;gap:14px}
+}
+.watchmode main{max-width:300px;padding:14px}
+.watchmode .hud,.watchmode details,.watchmode nav,.watchmode .note,.watchmode .lvrow,.watchmode .hd span,.watchmode #nosample,.watchmode #nudge,.watchmode section:not(#today){display:none!important}
+.watchmode .top{flex-direction:column;align-items:center;text-align:center;gap:4px}
+.watchmode #ringBox svg{width:170px;height:170px}
+.watchmode .kcal{font-size:1.3rem}
+.watchmode h2,.watchmode #habits,.watchmode .add{display:none!important}
+.watchmode .hd{justify-content:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+#focus .meta{font-size:1.15rem;color:var(--ink);text-align:center;padding:0 24px}
+.hb{border-color:transparent}
+h2{font-size:1rem;font-weight:600;margin:28px 0 10px}
+.fold{background:none;border-top:1px solid var(--line);border-radius:0;padding:0;margin:0}
+.fold summary{padding:16px 0;font-size:1rem;font-weight:600}
+.fold .fb{padding-bottom:18px}
+.kidonly{display:none}
+body.kid .kidonly{display:block}
+body.kid .nk{display:none!important}
+body.kid nav{grid-template-columns:repeat(6,1fr)}
+body.kid nav [data-t="look"]{display:none}
+#ageBlock{position:fixed;inset:0;background:#000;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px}
+.gate{display:none;margin:6px 0 14px}
+body.locked .gate{display:block}
+body.locked .hud,body.locked .lvrow,body.locked section,body.locked nav,body.locked .note,body.locked #nosample{display:none!important}
+body.minor .au{display:none!important}
+#lvl{background:linear-gradient(100deg,var(--hi),#fff,var(--acc),var(--hi));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 3.5s linear infinite}
+@keyframes shine{to{background-position:-300% 0}}
+#rankUp{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;pointer-events:none}
+#rankUp b{font:800 2.2rem var(--disp);background:linear-gradient(100deg,var(--hi),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent;animation:pop .6s cubic-bezier(.2,1.6,.4,1),fade .5s ease .9s forwards}
+@keyframes pop{0%{transform:scale(.3) rotate(-8deg);opacity:0}60%{transform:scale(1.12) rotate(2deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+@keyframes fade{to{opacity:0}}
+.daychips{display:flex;gap:5px;margin-top:8px}
+.dchip{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:none;color:var(--mute);font:700 .72rem var(--body);cursor:pointer}
+.dchip.on{background:var(--c);border-color:var(--c);color:var(--ci)}
+.dchip.cur{border-color:var(--c);color:var(--c)}
+.dchip.on.cur{color:var(--ci)}
+.line .dtag{font-size:.75rem;color:var(--mute);display:block;margin-top:2px}
+.toggle{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.toggle button{background:none;border:0;color:var(--mute);font:600 .82rem var(--body);padding:7px 13px;cursor:pointer}
+.toggle button.on{background:var(--acc);color:var(--acc-ink)}
+:root[data-theme="light"]{color-scheme:light;--bg:#f6f5fb;--surf:#fff;--surf2:#eeecf7;--ink:#16162a;--mute:#6a6a86;--line:#e1dff0}
+.photog{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.photog img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.pfig{position:relative}.pfig span{position:absolute;bottom:4px;left:6px;font-size:.65rem;background:rgba(0,0,0,.55);color:#fff;padding:1px 6px;border-radius:6px}
+.cmp{display:flex;gap:8px;margin-top:12px}.cmp>div{flex:1;text-align:center}.cmp img{width:100%;border-radius:12px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<header class="hd"><div class="brand">Aura</div><span style="display:flex;gap:10px;align-items:center"><span class="meta" id="xpV"></span><button class="ghost" id="editYou" hidden style="margin:0;padding:5px 12px">Edit details</button></span></header>
+<div class="lvrow"><b id="lvl">LVL 1</b><div class="xp"><i id="xpF"></i></div></div>
+<div class="hud">
+<button class="hb" data-go="coach" style="--c:#a99bff"><span class="hi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><span class="hv" id="hcV"></span><span class="hl">Chat</span><span class="hbt"><i id="hcF"></i></span></button>
+<button class="hb" data-go="food" style="--c:#ffab4d"><span class="hi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s6 6.2 6 10.5A6 6 0 0 1 6 13.5C6 9.2 12 3 12 3z"/></svg></span><span class="hv" id="hmV"></span><span class="hl">Meals &amp; hydration</span><span class="hbt"><i id="hmF"></i></span></button>
+<button class="hb" data-go="sleep" style="--c:#63c9ff"><span class="hi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></span><span class="hv" id="hsV"></span><span class="hl">Sleep</span><span class="hbt"><i id="hsF"></i></span></button>
+<button class="hb" data-go="train" style="--c:#ff6b9a"><span class="hi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M3 10v4M18 7v10M21 10v4M6 12h12"/></svg></span><span class="hv" id="hxV"></span><span class="hl">Exercise</span><span class="hbt"><i id="hxF"></i></span></button>
+</div>
+<div id="nosample" class="warn" hidden>The AI features work when this page is opened inside Claude. Habits, logs and targets still work.</div>
+
+<p class="gate meta">Fill in your details and tap Done to start using Aura. They are used to set your targets and tailor your workouts.</p>
+<details id="you">
+<summary>Your details <span class="meta" style="font-weight:400">for calorie targets</span></summary>
+<p class="meta" id="syncNote"></p>
+<div class="grid">
+<label style="grid-column:1/-1">Email<input id="email" type="email" placeholder="you@example.com"></label>
+<label>Sex<select id="sex"><option value="f">Female</option><option value="m">Male</option><option value="o">Other</option></select></label>
+<label>Age<input id="age" type="number" min="12" max="90" inputmode="numeric"></label>
+<label>Height (cm)<input id="ht" type="number" min="120" max="230" inputmode="numeric"></label>
+<label>Weight (kg)<input id="wt" type="number" min="35" max="250" inputmode="decimal"></label>
+</div>
+<details class="fold"><summary>Goals and preferences</summary><div class="fb"><div class="grid">
+<label>Activity<select id="act"><option value="1.2">Mostly sitting</option><option value="1.375" selected>Light (1–3 days)</option><option value="1.55">Moderate (3–5 days)</option><option value="1.725">Very active</option></select></label>
+<label>Goal<select id="goal"><option value="lose">Lose fat slowly</option><option value="maintain" selected>Maintain</option><option value="gain">Build muscle</option></select></label>
+<label>Diet<select id="diet"><option>No restrictions</option><option>Vegetarian</option><option>Vegan</option><option>Pescatarian</option><option>Halal</option><option>Gluten-free</option></select></label>
+<label>Avoid / allergies<input id="avoid" placeholder="e.g. nuts"></label>
+<label>Equipment I have<input id="equip" placeholder="e.g. dumbbells, pull-up bar, bands"></label>
+<label>Minutes per workout<input id="mins" type="number" value="40" min="10" max="120"></label>
+<label>Experience<select id="lvl"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></label>
+</div></div></details>
+<div style="padding-bottom:16px"><button class="btn" id="youDone" style="width:100%">Done</button></div>
+</details>
+
+<section id="today" style="--c:#f4f4f6">
+<div id="nudge"></div>
+<div class="top"><div id="ringBox"></div><div id="eat"></div></div>
+<p class="meta" id="wk"></p>
+<h2>Today's plan</h2><p class="meta">Everything on deck today, in one place.</p>
+<div id="plan"></div>
+<details class="fold"><summary>Habits</summary><div class="fb">
+<p class="meta">Miss a day and your streak still survives once — look for ❄ next to it.</p><p class="meta">Miss a day and your streak still survives once — look for ❄ next to it.</p>
+<div id="habits"></div>
+<div class="add"><input id="newH" placeholder="Add a habit, e.g. Walk 8,000 steps" aria-label="New habit"><button class="btn" id="addH">Add</button></div>
+</div></details>
+<details class="fold"><summary>90-day challenge</summary><div class="fb"><div id="ch"></div>
+</div></details>
+<details class="fold"><summary>Focus</summary><div class="fb">
+<div class="add"><select id="fmin" style="width:auto;margin:0" aria-label="Minutes"><option>15</option><option selected>25</option><option>45</option></select><button class="btn" id="fStart">Start focus session</button></div>
+<p class="meta" id="fToday"></p>
+
+</div></details>
+<details class="fold"><summary>Badges</summary><div class="fb">
+<div id="badges"></div>
+</div></details>
+<h2>Last 7 days</h2>
+<div id="week" class="wk"></div>
+<details class="fold"><summary>Appearance and units</summary><div class="fb">
+<div class="line"><div class="grow">Theme</div><div class="toggle" id="themeT"><button data-th="dark">Dark</button><button data-th="light">Light</button></div></div>
+<div class="line"><div class="grow">Weight unit</div><div class="toggle" id="unitT"><button data-u="kg">kg</button><button data-u="lb">lb</button></div></div>
+</div></details>
+<details class="fold"><summary>History</summary><div class="fb">
+<p class="meta">See how any past day went.</p>
+<div class="daychips" id="histDays"></div>
+<select id="histSel" style="margin-top:10px"></select>
+<div id="histCard"></div>
+</div></details>
+<details class="fold"><summary>Backup your data</summary><div class="fb">
+<p class="meta">Aura only lives in this browser. If you clear your browser data, switch phones, or use a different browser, you lose everything unless you save a backup first.</p>
+<p class="meta" style="margin-top:10px"><b>To back up:</b> tap "Create backup code", then tap "Copy" and paste it somewhere safe, like a notes app.</p>
+<button class="btn" id="expBtn">Create backup code</button>
+<div id="expWrap" hidden style="margin-top:10px">
+<textarea id="expOut" readonly></textarea>
+<button class="ghost" id="cpBtn" style="margin-top:8px">Copy</button><span class="meta" id="cpMsg"></span>
+</div>
+<p class="meta" style="margin-top:20px"><b>To restore:</b> paste a backup code you saved earlier, then tap Restore. This replaces everything currently in the app with what's in the code.</p>
+<textarea id="impIn" placeholder="Paste your backup code here"></textarea>
+<p><button class="ghost" id="impBtn">Restore from this code</button></p><div id="impMsg" class="meta"></div>
+</div></details>
+<h2>Feedback</h2>
+<button class="btn" id="fbBtn">Grade my day</button> <button class="ghost" id="wkBtn">Weekly review</button>
+<div id="fbOut" class="out"></div>
+</section>
+
+<section id="food" hidden style="--c:#ffab4d">
+<h2>Hydration</h2>
+<div class="line"><div class="grow">Water <span id="wTxt" class="meta"></span></div><button class="ghost" id="w250" style="margin:0">+250 ml</button><button class="ghost" id="w500" style="margin:0">+500 ml</button></div>
+<h2>Log food</h2>
+<div class="add"><input id="foodIn" placeholder="What did you eat? e.g. 2 eggs, toast with butter, coffee" aria-label="Food"><button class="btn" id="foodBtn">Log</button></div>
+<label id="scanWrap" style="margin-top:10px">Or snap your meal and I'll estimate it<input id="scan" type="file" accept="image/*"></label>
+<div id="foodMsg" class="out"></div>
+<div id="recent" class="meta" style="margin-top:10px"></div>
+<div id="foodList"></div>
+<h2>What should I eat?</h2><p class="meta">Ideas that fit what you have left today. Tap Log to add one.</p>
+<div class="add"><input id="eatWant" placeholder="Craving or ingredients you have (optional)" aria-label="Craving or ingredients"><button class="btn" id="eatBtn">Get ideas</button></div><div id="eatOut" class="out"></div>
+<details class="fold"><summary>Cooking tips and how to cook</summary><div class="fb"><input id="cookIn" placeholder="A dish or ingredients you have (empty = general tips)" aria-label="Dish or ingredients"><p><button class="btn" id="cookBtn">Teach me</button></p><div id="cookOut" class="out"></div></div></details>
+<details class="fold"><summary>Meal plan for today</summary><div class="fb">
+<button class="btn" id="mealBtn">Build my meal plan</button>
+<div id="mealOut"></div><div id="shopWrap"></div>
+</div></details>
+<details class="fold"><summary>Portion guide</summary><div class="fb"><p class="meta" id="portions"></p>
+</div></details>
+</section>
+
+<section id="sleep" hidden style="--c:#63c9ff">
+<h2>Sleep</h2>
+<p class="meta">Log last night. Aim for 7 to 9 hours.</p>
+<div class="grid" style="grid-template-columns:1fr 1fr">
+<label>Went to bed<input id="slBed" type="time" value="23:00"></label>
+<label>Woke up<input id="slWake" type="time" value="07:00"></label>
+<label>How did you feel?<select id="slQ"><option>Great</option><option selected>OK</option><option>Poor</option></select></label>
+</div>
+<div class="kcal" id="slCalc" style="margin-top:16px"></div>
+<p><button class="btn" id="slBtn">Log sleep</button></p>
+<details class="fold"><summary>Wake-up calculator</summary><div class="fb"><p class="meta">Pick your wake time. Sleep cycles last about 90 minutes, so these bedtimes let you wake between cycles.</p>
+<input id="wakeT" type="time" value="07:00" aria-label="Wake time"><div id="bedOut"></div>
+</div></details>
+<h2>Last 7 nights</h2>
+<div id="slChart" class="wk"></div>
+<h2>Sleep coach</h2>
+<button class="btn" id="slAI">Get sleep tips</button>
+<div id="slOut" class="out"></div>
+</section>
+
+<section id="train" hidden style="--c:#ff6b9a">
+<h2>Log sets</h2>
+<div class="grid" style="grid-template-columns:2fr 1fr 1fr"><label>Exercise<input id="exN" placeholder="Bench press"></label><label>kg<input id="exW" type="number" step="0.5" inputmode="decimal" placeholder="60"></label><label>Reps<input id="exR" type="number" inputmode="numeric" placeholder="8"></label></div>
+<div class="add"><button class="btn" id="setBtn">Add set</button><button class="ghost" id="finBtn">Finish workout</button><span class="meta" id="rest" style="align-self:center"></span></div>
+<div id="sessList"></div><div class="meta" id="sessVol"></div>
+<details class="fold"><summary>Quick log</summary><div class="fb">
+<div class="add"><input id="wIn" placeholder="e.g. Push day, 45 min, bench 3x8" aria-label="Workout"><button class="btn" id="wBtn">Log</button></div>
+<div id="wList"></div>
+</div></details>
+<h2>Guided workout</h2><p class="meta">A timed follow-along session with work, rest and what's next.</p>
+<div class="grid" style="grid-template-columns:1fr 1fr"><label>Style<select id="gType"><option>Calisthenics</option><option>Strength</option><option>HIIT</option><option>Mobility and stretching</option></select></label><label>Minutes<select id="gMin"><option>10</option><option selected>20</option><option>30</option></select></label></div>
+<p><button class="btn" id="gBtn">Start guided session</button></p><div id="gOut" class="out"></div>
+<details class="fold"><summary>Exercise ideas</summary><div class="fb">
+<p class="meta">A weekly split for your goal, equipment and time, plus easy off-day movement.</p>
+<button class="btn" id="moveBtn">Get workout ideas</button>
+<div id="moveOut"></div>
+</div></details>
+</section>
+
+<section id="quests" hidden style="--c:#b9f56a">
+<h2>Daily quests</h2><p class="meta">Finish quests to earn XP, level up and climb the ranks.</p><div id="qList"></div>
+<div class="add"><input id="qNew" placeholder="Add a quest, e.g. Read for 15 minutes" aria-label="New quest"><button class="btn" id="qAdd">Add</button></div>
+<h2>Chores</h2><div class="daychips" id="cfDays"></div>
+<div id="chList"></div>
+<div class="add"><input id="chNew" placeholder="Add a chore, e.g. Wash the car" aria-label="New chore"><button class="btn" id="chAdd">Add</button></div>
+<details class="fold"><summary>Ways to earn money at my age</summary><div class="fb"><p class="meta">Safe, realistic ideas for your age. Check with a parent or guardian first.</p><button class="btn" id="cashBtn">Show me ideas</button><div id="cashOut" class="out"></div></div></details>
+<details class="fold"><summary>Ranks</summary><div class="fb" id="rankList"></div></details>
+<details class="fold"><summary>Share my stats</summary><div class="fb">
+<p class="meta">Copy a quick snapshot to send a friend — there’s no live friends list here, since each person’s Aura only talks to their own account.</p>
+<button class="btn" id="shareBtn">Copy my stats</button><span class="meta" id="shareMsg"></span>
+</div></details>
+</section>
+
+<section id="aicoach" hidden style="--c:#ffd84d">
+<h2>AI coach</h2><p class="meta">Say what equipment you have, ask what to train today, or get a review of your logs.</p>
+<label>Equipment I have<input id="eqHave" placeholder="e.g. 2 dumbbells, pull-up bar, resistance bands"></label>
+<div class="line"><div class="grow">Talk while you train</div><div class="toggle" id="voiceT"><button data-v="off">Off</button><button data-v="on">On</button></div></div>
+<p class="meta" id="voiceNote">Turn this on, then tap the mic and describe your set out loud, like "doing squats, knees cave in a bit." The coach can't see you, so it corrects based on what you say, not a camera.</p>
+<div id="tchips"></div><div id="tchat" class="chat"></div>
+<div class="add"><button class="ghost" id="micBtn" hidden>&#127908;</button><input id="tq" placeholder="What workout should I do today?" aria-label="Ask the coach"><button class="btn" id="tqBtn">Ask</button></div>
+<p><button class="ghost" id="coachBtn">Review my training</button></p><div id="coachOut" class="out"></div>
+</section>
+
+<section id="look" hidden style="--c:#6ff2c5">
+<h2>Physique, posture and style check</h2>
+<p class="meta">Specific, honest feedback on things you can change. No scores on your body or face.</p>
+<div class="add"><button class="ghost" id="qsPosture" style="margin:0">🪷 Posture check</button><button class="ghost" id="qsPhysique" style="margin:0">🏋 Physique scan</button></div>
+<div class="grid" style="grid-template-columns:1fr;margin-top:10px">
+<label>What should I look at?<select id="ctype"><option>Physique progress (photo)</option><option>Posture (photo)</option><option>Grooming and style (photo)</option><option>Outfit</option><option>Dating profile or bio text</option></select></label>
+<label>Notes<textarea id="ctext" placeholder="Your goal, the occasion, what worries you."></textarea></label>
+<label id="photoWrap">Photo (optional)<input id="cphoto" type="file" accept="image/*"></label>
+</div>
+<p><button class="btn" id="critBtn">Critique it</button></p>
+<div id="critOut" class="out"></div>
+<div id="critAct"><div id="critBtns" style="margin-top:12px"></div><div id="critMsg"></div></div>
+<h2>Glow-up meter</h2>
+<div class="kcal" id="potPct"></div><div class="bar"><i id="potBar" style="width:0;background:var(--c)"></i></div>
+<p class="meta">How consistently you followed your habits, workouts and sleep over the last 14 days. It measures your effort, not your body or face.</p>
+<button class="btn" id="potBtn">Get my workouts, glow-up tips and success plan</button><div id="potOut" class="out"></div>
+<h2>Hairstyle ideas</h2><p class="meta">Add a photo and your hair type to get styles that suit you, plus how to ask for them.</p>
+<label>Hair type and length<input id="hairNote" placeholder="e.g. short, wavy, thick"></label>
+<label style="margin-top:10px">Photo (optional)<input id="hairPhoto" type="file" accept="image/*"></label>
+<p><button class="btn" id="hairBtn">Suggest hairstyles</button></p><div id="hairOut" class="out"></div>
+<h2>Glow-up plan</h2><p class="meta">A 4-week plan for skin, hair, grooming, style, posture and fitness. Daily habits are added to Today.</p>
+<button class="btn" id="gluBtn">Build my glow-up plan</button><div id="gluOut" class="out"></div>
+<h2>Progress photos</h2><p class="meta">A private timeline, just for you. Photos are saved only in this browser.</p>
+<input id="pgPhoto" type="file" accept="image/*"><div id="pgGallery" class="photog"></div><div id="pgCmp"></div>
+<details class="fold"><summary>Weight log</summary><div class="fb">
+<div class="add"><input id="wtIn" type="number" step="0.1" placeholder="Today's weight (kg)" aria-label="Weight in kg"><button class="btn" id="wtBtn">Save</button></div>
+<div id="wtOut"></div><p class="meta" id="trend"></p>
+</div></details>
+</section>
+
+<section id="coach" hidden style="--c:#a99bff">
+<h2>Chat</h2>
+<p class="meta">Ask anything. Attach a photo to get a critique of your outfit, physique, posture or meal.</p>
+<div id="chips"></div>
+<div id="chat" class="chat"></div>
+<div class="add"><label id="cimgL" class="ghost" style="margin:0;display:flex;align-items:center;color:var(--ink)">Photo<input id="cimg" type="file" accept="image/*" hidden></label><input id="q" placeholder="Ask anything, or attach a photo" aria-label="Your message"><button class="btn" id="qBtn">Ask</button></div>
+</section>
+
+<p class="meta"><a href="?watch=1" target="_blank" style="color:var(--acc)">Open a compact view</a> for a smartwatch browser (works on Wear OS; Apple Watch can’t open web pages).</p>
+<p class="note">Your data is saved only in this browser. General wellness guidance, not medical advice. For health conditions, injuries or worries about eating, talk to a professional.</p>
+</main>
+<div id="focus" hidden><div class="meta">One thing. Nothing else.</div><div id="fClock" class="kcal" style="font-size:5rem"></div><button class="ghost" id="fStop">Give up</button></div>
+<div id="ageBlock" hidden><div class="kcal" style="font-size:1.4rem;text-align:center">Aura is for ages 12 and up</div><p class="meta" style="max-width:320px;text-align:center">Ask a parent or teacher about fun ways to move, sleep well and enjoy a mix of foods.</p><button class="ghost" id="ageFix">I typed the wrong age</button></div>
+<nav role="tablist" aria-label="Sections">
+<div class="navbrand">Aura</div>
+<button role="tab" aria-selected="true" data-t="today" style="--c:#f4f4f6"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/></svg><span>Today</span></button>
+<button role="tab" aria-selected="false" data-t="quests" style="--c:#b9f56a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h12l-2 4 2 4H5"/></svg><span>Quests</span></button>
+<button role="tab" aria-selected="false" data-t="food" style="--c:#ffab4d"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3M7 11v10M17 3c-2.2 1.5-3 4-3 7 0 1.7 1 2.6 3 3v8"/></svg><span>Food</span></button>
+<button role="tab" aria-selected="false" data-t="sleep" style="--c:#63c9ff"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg><span>Sleep</span></button>
+<button role="tab" aria-selected="false" data-t="train" style="--c:#ff6b9a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M3 10v4M18 7v10M21 10v4M6 12h12"/></svg><span>Train</span></button>
+<button role="tab" aria-selected="false" data-t="aicoach" style="--c:#ffd84d"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.2 5.6L20 10l-4.4 3.8L17 20l-5-3-5 3 1.4-6.2L4 10l5.8-1.4z"/></svg><span>Coach</span></button>
+<button role="tab" aria-selected="false" data-t="look" style="--c:#6ff2c5"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>Look</span></button>
+<button role="tab" aria-selected="false" data-t="coach" style="--c:#a99bff"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><span>Chat</span></button>
+</nav>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let sample=null;
+let S={prof:{},habits:[{id:1,name:"Drink 2 L of water",done:[]},{id:2,name:"Move for 30 minutes",done:[]},{id:3,name:"Sleep 7+ hours",done:[]},{id:4,name:"Skincare",done:[]}],food:{},work:{},weights:[]};
+try{const s=JSON.parse(localStorage.getItem("upkeep2"));if(s)S={...S,...s}}catch(e){}
+S.theme=S.theme||"dark";S.unit=S.unit||"kg";
+document.documentElement.dataset.theme=S.theme;
+const kg2disp=k=>S.unit==="kg"?Math.round(k*10)/10:Math.round(k*2.20462*10)/10;
+const disp2kg=v=>S.unit==="kg"?v:v/2.20462;
+const save=()=>{try{localStorage.setItem("upkeep2",JSON.stringify(S))}catch(e){}pushCloud()};
+const CL={user:null,db:null,uid:null,writing:false,timer:null};
+function pushCloud(){
+  if(!CL.db||!CL.uid)return;
+  clearTimeout(CL.timer);
+  CL.timer=setTimeout(async()=>{
+    if(CL.writing){pushCloud();return}
+    CL.writing=true;
+    try{const {photos,...rest}=S;await CL.db.doc("data/users/"+CL.uid+"/state").set(rest)}catch(e){}
+    CL.writing=false;
+  },1000);
+}
+async function initCloud(){
+  try{
+    CL.user=window.claude?await window.claude.use("user"):null;
+    CL.db=window.claude?await window.claude.use("db"):null;
+  }catch(e){}
+  if(CL.user){
+    try{const em=await CL.user.email();if(em){$("#email").value=em;$("#email").readOnly=true;S.prof.email=em}}catch(e){}
+    try{CL.uid=await CL.user.id()}catch(e){}
+  }
+  if(CL.db&&CL.uid){
+    $("#syncNote").textContent="Synced to your Claude account \u2014 open this page signed in on another device to see the same data.";
+    try{
+      const snap=await CL.db.doc("data/users/"+CL.uid+"/state").get();
+      if(snap.exists&&!S.ready){S={...S,...snap.data()};fields.forEach(f=>{if(S.prof[f.id]!=null)f.value=f.id==="wt"?kg2disp(+S.prof[f.id]):S.prof[f.id]});lockUpdate();render()}
+    }catch(e){}
+  }else{
+    $("#syncNote").textContent="Saved only on this device. Open inside Claude, signed in, for sync across your devices.";
+  }
+}
+const day=(o=0)=>{const d=new Date();d.setDate(d.getDate()-o);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+function streakInfo(h){let n=0,o=h.done.includes(day())?0:1,freeze=1,froze=false;
+  while(true){if(h.done.includes(day(o))){n++;o++}else if(freeze>0){freeze--;froze=true;o++}else break}
+  return {n,froze};
+}
+const streak=h=>streakInfo(h).n;
+const fields=$$("#you [id]");
+fields.forEach(f=>{if(S.prof[f.id]!=null)f.value=f.id==="wt"?kg2disp(+S.prof[f.id]):S.prof[f.id];
+  f.addEventListener("input",()=>{S.prof[f.id]=f.id==="wt"?disp2kg(+f.value):f.value;save();render()})});
+const prof=()=>Object.fromEntries(fields.map(f=>[f.id,f.value]));
+const KID=()=>false;
+const ctx=()=>{const p=prof();if(KID())return `A child aged ${p.age||"unknown"} (keep everything age-appropriate). Equipment: ${p.equip}, sessions ${p.mins} min, level ${p.lvl}, avoid or allergic: ${p.avoid||"nothing"}.`;return `Sex: ${p.sex}, age ${p.age||"?"}, height ${p.ht||"?"} cm, weight ${p.wt||"?"} kg, goal: ${p.goal}, diet: ${p.diet}, avoid: ${p.avoid||"nothing"}, equipment: ${p.equip||"none (bodyweight only)"}, ${p.mins} min sessions, level: ${p.lvl}.`};
+function calc(){
+  const p=prof(),a=+p.age,h=+p.ht,w=+p.wt;if(!a||!h||!w)return null;
+  const bmr=10*w+6.25*h-5*a+(p.sex==="m"?5:p.sex==="f"?-161:-78);
+  let k=bmr*(+p.act)*(p.goal==="lose"?.85:p.goal==="gain"?1.1:1);
+  k=Math.max(k,MINOR()?1800:p.sex==="m"?1500:1200);
+  const pr=w*(MINOR()?1.2:p.goal==="maintain"?1.4:1.8),fat=k*.27/9;
+  return{k:Math.round(k/10)*10,pr:Math.round(pr),fat:Math.round(fat),carb:Math.round(Math.max(0,(k-pr*4-fat*9)/4))};
+}
+const sum=(l,k)=>l.reduce((a,x)=>a+(+x[k]||0),0);
+const foodToday=()=>S.food[day()]||[];
+
+function render(){
+  paintTop();paintHud();paintSleep();paintExtras();paintNudge();paintHist();
+  const t=calc(),f=foodToday(),eaten=sum(f,"kcal");
+  $("#eat").innerHTML=t?`<div class="kcal">${eaten}<span class="meta" style="font-size:1rem;font-weight:400"> / ${t.k} kcal eaten</span></div><div class="bar" aria-hidden="true"><i style="width:${Math.min(100,eaten/t.k*100)}%;background:var(--acc)"></i></div><div class="meta">Protein ${sum(f,"p")} / ${t.pr} g · Carbs ${sum(f,"c")} / ${t.carb} g · Fat ${sum(f,"f")} / ${t.fat} g</div>`:`<div class="kcal">${eaten}<span class="meta" style="font-size:1rem;font-weight:400"> kcal eaten</span></div><div class="meta">Open Your details to get a daily target.</div>`;
+  const w=S.work[day()]||[];
+  $("#wk").textContent=w.length?`${w.length} workout${w.length>1?"s":""} logged today`:"No workout logged today";
+  $("#habits").innerHTML=S.habits.map(h=>{const st=streakInfo(h);return `<div class="line"><input type="checkbox" id="h${h.id}" data-h="${h.id}" ${h.done.includes(day())?"checked":""}><label for="h${h.id}">${esc(h.name)}</label><span class="dots" aria-hidden="true">${[6,5,4,3,2,1,0].map(o=>`<i class="${h.done.includes(day(o))?"on":""}"></i>`).join("")}</span><span class="meta">${st.n?st.n+"d"+(st.froze?" ❄":""):""}</span><button class="x" data-del="${h.id}" aria-label="Delete habit">×</button></div>`}).join("")||'<p class="meta">Add your first habit below.</p>';
+  $("#foodList").innerHTML=f.map((x,i)=>`<div class="line"><div class="grow">${esc(x.name)}<div class="meta">${x.kcal} kcal · P ${x.p} · C ${x.c} · F ${x.f}</div></div><button class="x" data-ef="${i}" aria-label="Edit">✎</button><button class="x" data-df="${i}" aria-label="Remove">×</button></div>`).join("");
+  $("#wList").innerHTML=w.map((x,i)=>`<div class="line"><div class="grow">${esc(x)}</div><button class="x" data-ew="${i}" aria-label="Edit">✎</button><button class="x" data-dw="${i}" aria-label="Remove">×</button></div>`).join("");
+  const ws=S.weights.slice(-14);
+  if(ws.length){const mn=Math.min(...ws.map(x=>x.kg)),mx=Math.max(...ws.map(x=>x.kg)),r=(mx-mn)||1;
+    const pts=ws.map((x,i)=>`${ws.length>1?i*300/(ws.length-1):150},${56-(x.kg-mn)/r*48}`).join(" ");
+    $("#wtOut").innerHTML=`<svg class="sp" viewBox="0 0 300 64" preserveAspectRatio="none" role="img" aria-label="Weight trend"><polyline points="${pts}" fill="none" stroke="var(--acc)" stroke-width="2.5" vector-effect="non-scaling-stroke"/></svg><div class="meta">Latest ${kg2disp(ws[ws.length-1].kg)} ${S.unit} on ${ws[ws.length-1].d}</div>`}
+}
+function score(o=0){
+  const k=day(o),n=S.habits.length,hp=n?S.habits.filter(h=>h.done.includes(k)).length/n:0;
+  const t=calc(),e=sum(S.food[k]||[],"kcal"),fp=e?(t?Math.max(0,1-Math.abs(e-t.k)/(t.k*.4)):.5):0;
+  return KID()?Math.round((hp*.6+((S.work[k]||[]).length?.4:0))*100):Math.round((hp*.5+fp*.3+((S.work[k]||[]).length?.2:0))*100);
+}
+function paintTop(){
+  const s=score(),c=2*Math.PI*44;
+  $("#wTxt").textContent=((S.water||{})[day()]||0)+" / 2500 ml";
+  const seen={},rec=[];Object.values(S.food).flat().reverse().forEach(x=>{if(!seen[x.name]&&rec.length<6){seen[x.name]=1;rec.push(x)}});REC=rec;
+  $("#recent").innerHTML=rec.length?"Quick add: "+rec.map((x,i)=>`<button class="ghost" data-rc="${i}">${esc(x.name)}</button>`).join(""):"";
+  $("#fToday").textContent=((S.focusMin||{})[day()]||0)+" focus minutes today";
+  const tot=o=>Object.values(o||{}).reduce((a,x)=>a+(Array.isArray(x)?x.length:+x||0),0),best=Math.max(0,...S.habits.map(streak));
+  const B=[["3-day streak",best>=3],["7-day streak",best>=7],["First workout",tot(S.work)>=1],["10 meals logged",tot(S.food)>=10],["1 hour of focus",tot(S.focusMin)>=60],["Near-perfect day",[0,1,2,3,4,5,6].some(o=>score(o)>=90)]];
+  $("#badges").innerHTML=B.map(([n,ok])=>`<span class="badge${ok?" on":""}">${n}</span>`).join("");
+  if(!$("#rc"))$("#ringBox").innerHTML=`<svg viewBox="0 0 100 100" width="132" height="132" role="img" aria-label="Day score"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a99bff"/><stop offset="1" stop-color="#ff6b9a"/></linearGradient></defs><circle cx="50" cy="50" r="44" fill="none" stroke="var(--line)" stroke-width="9"/><circle id="rc" cx="50" cy="50" r="44" fill="none" stroke="url(#rg)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c}" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .7s"/><text id="rt" x="50" y="54" text-anchor="middle" font-size="26" font-weight="700"></text><text x="50" y="68" text-anchor="middle" font-size="9" fill="var(--mute)">day score</text></svg>`;
+  requestAnimationFrame(()=>{$("#rc").setAttribute("stroke-dashoffset",c*(1-s/100));$("#rt").textContent=s});
+  $("#week").innerHTML=[6,5,4,3,2,1,0].map(o=>`<div class="wb${o?"":" now"}"><i style="height:${Math.max(4,score(o)*.65)}px"></i><span>${new Date(day(o)+"T12:00").toLocaleDateString(undefined,{weekday:"narrow"})}</span></div>`).join("");
+}
+$("#wkBtn").onclick=()=>{const out=$("#fbOut");
+  run($("#wkBtn"),out,async()=>{
+    const rows=[6,5,4,3,2,1,0].map(o=>{const k=day(o);return `${k}: habits ${S.habits.filter(h=>h.done.includes(k)).length}/${S.habits.length}, kcal ${sum(S.food[k]||[],"kcal")}, workouts ${(S.work[k]||[]).length}, score ${score(o)}`}).join("\n");
+    const t=calc(),ws=S.weights.slice(-4).map(x=>x.kg).join(", ");
+    await sample(`You are a direct, encouraging coach. Last 7 days, oldest first. Calorie target: ${t?t.k:"unknown"}.\n${rows}\nRecent weights (kg): ${ws||"none"}. Write a weekly review under 130 words: the pattern you see, the biggest win, the biggest leak, and one focus for next week. Plain text, no markdown.`,{modelTier:"quick",onText:({text})=>{out.textContent=text}});
+  })};
+$("#habits").addEventListener("change",e=>{const h=S.habits.find(x=>x.id==e.target.dataset.h);if(!h)return;const d=day();h.done=e.target.checked?[...new Set([...h.done,d])]:h.done.filter(x=>x!==d);save();render()});
+$("#habits").addEventListener("click",e=>{const id=e.target.dataset.del;if(id){S.habits=S.habits.filter(h=>h.id!=id);save();render()}});
+$("#addH").onclick=()=>{const v=$("#newH").value.trim();if(!v)return;S.habits.push({id:Date.now(),name:v,done:[]});$("#newH").value="";save();render()};
+$("#newH").addEventListener("keydown",e=>{if(e.key==="Enter")$("#addH").click()});
+$("#foodList").addEventListener("click",e=>{const i=e.target.dataset.df,j=e.target.dataset.ef;
+  if(i!=null){foodToday().splice(i,1);save();render()}
+  if(j!=null){const x=foodToday()[j],n=prompt("Kcal for "+x.name,x.kcal);if(n==null)return;x.kcal=+n||0;save();render()}});
+$("#wList").addEventListener("click",e=>{const i=e.target.dataset.dw,j=e.target.dataset.ew;
+  if(i!=null){S.work[day()].splice(i,1);save();render()}
+  if(j!=null){const arr=S.work[day()],n=prompt("Edit workout",arr[j]);if(n==null)return;arr[j]=n;save();render()}});
+$("#wBtn").onclick=()=>{const v=$("#wIn").value.trim();if(!v)return;(S.work[day()]??=[]).push(v);$("#wIn").value="";save();render()};
+$("#wtBtn").onclick=()=>{const v=+$("#wtIn").value;if(!v)return;S.weights=S.weights.filter(x=>x.d!==day());S.weights.push({d:day(),kg:disp2kg(v)});$("#wtIn").value="";save();render()};
+
+$$("nav button").forEach(b=>b.onclick=()=>{$$("nav button").forEach(x=>x.setAttribute("aria-selected",x===b));["today","quests","food","sleep","train","aicoach","look","coach"].forEach(id=>$("#"+id).hidden=id!==b.dataset.t)});
+const copy=c=>c==="not_granted"?"Claude access was declined. Reload the page and allow it to continue.":c==="rate_limited"?"Too many requests. Wait a moment and try again.":c==="cancelled"?"":"That didn't work. Try again in a moment.";
+async function run(btn,out,fn){
+  if(!sample){out.innerHTML='<p class="warn">Open this page inside Claude to use the AI features.</p>';return}
+  btn.disabled=true;out.innerHTML='<p class="meta">Thinking…</p>';
+  try{await fn()}catch(e){out.innerHTML=`<p class="warn">${esc(copy(e&&e.code))}</p>`}finally{btn.disabled=false}
+}
+
+$("#foodBtn").onclick=()=>{const t=$("#foodIn").value.trim();if(!t)return;
+  run($("#foodBtn"),$("#foodMsg"),async()=>{
+    const d=await sample.json(`Estimate nutrition for this food log entry: "${t}". Reply with only JSON: {"name":"short name","kcal":0,"p":0,"c":0,"f":0} for the whole entry, whole numbers, protein/carbs/fat in grams.`,{modelTier:"quick"});
+    (S.food[day()]??=[]).push({name:d.name||t,kcal:Math.round(d.kcal)||0,p:Math.round(d.p)||0,c:Math.round(d.c)||0,f:Math.round(d.f)||0});
+    save();$("#foodIn").value="";$("#foodMsg").innerHTML="";render();
+  })};
+$("#foodIn").addEventListener("keydown",e=>{if(e.key==="Enter")$("#foodBtn").click()});
+
+let plan=[];
+$("#mealBtn").onclick=()=>{const t=calc(),out=$("#mealOut");
+  if(!t&&!KID()){out.innerHTML='<p class="warn">Add your age, height and weight in Your details first.</p>';return}
+  run($("#mealBtn"),out,async()=>{
+    const d=await sample.json(`${KID()?KMEAL():`You are a dietitian-style meal planner. ${ctx()} Daily target: ${t.k} kcal, ${t.pr} g protein, ${t.carb} g carbs, ${t.fat} g fat. Plan one realistic day: 3 meals and 1-2 snacks within about 5% of the target, ordinary groceries, respecting diet and avoid list.`} Reply with only JSON: {"meals":[{"name":"Breakfast: ...","items":"foods with amounts","kcal":0,"p":0,"c":0,"f":0}]}`);
+    plan=d.meals||[];
+    out.innerHTML=plan.map((m,i)=>`<div class="line"><div class="grow"><b>${esc(m.name)}</b><div>${esc(m.items)}</div><div class="meta nk">${esc(m.kcal)} kcal · P ${esc(m.p)} · C ${esc(m.c)} · F ${esc(m.f)}</div></div><button class="ghost nk" data-lg="${i}">Log</button></div>`).join("");
+    $("#shopWrap").innerHTML='<button class="ghost" id="shopBtn" style="margin-top:10px">Make shopping list</button><div id="shopOut" class="out"></div>';
+    $("#shopBtn").onclick=()=>run($("#shopBtn"),$("#shopOut"),async()=>{
+      const items=plan.map(m=>m.items).join("; ");
+      const d2=await sample.json(`Combine these meal ingredients into one shopping list, merging duplicates and adding up amounts where possible. Ingredients: ${items}. Reply with only JSON: {"list":["2 cups rice","6 eggs"]}`,{modelTier:"quick"});
+      $("#shopOut").innerHTML=(d2.list||[]).map(x=>`<div class="line"><input type="checkbox" id="sh${esc(x)}"><label for="sh${esc(x)}">${esc(x)}</label></div>`).join("");
+    });
+  })};
+$("#mealOut").addEventListener("click",e=>{const m=plan[e.target.dataset.lg];if(!m)return;(S.food[day()]??=[]).push({name:m.name,kcal:+m.kcal||0,p:+m.p||0,c:+m.c||0,f:+m.f||0});save();render();e.target.textContent="Logged";e.target.disabled=true});
+
+$("#moveBtn").onclick=()=>{const out=$("#moveOut");
+  run($("#moveBtn"),out,async()=>{
+    const d=await sample.json(`${KID()?KMOVE():`You are a strength coach. ${ctx()} Design a safe weekly plan: 3 or 4 workouts fitting equipment, level, goal and time, plus 4 easy off-day movement ideas.`} Reply with only JSON: {"sessions":[{"day":"Day 1","title":"...","focus":"...","exercises":[{"name":"...","sets":"3 x 10","tip":"short form cue"}]}],"offdays":["idea"]}`);
+    out.innerHTML=(d.sessions||[]).map(s=>`<div class="line" style="display:block"><b>${esc(s.day)}: ${esc(s.title)}</b> <span class="meta">${esc(s.focus)}</span>${(s.exercises||[]).map(e=>`<div>${esc(e.name)} <span class="meta">${esc(e.sets)} · ${esc(e.tip)}</span></div>`).join("")}</div>`).join("")+`<div class="line" style="display:block"><b>Off days</b><ul>${(d.offdays||[]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`;
+  })};
+
+$("#fbBtn").onclick=()=>{const out=$("#fbOut"),t=calc(),d=day(),w=S.work[d]||[];
+  run($("#fbBtn"),out,async()=>{
+    const hs=S.habits.map(h=>`${h.name}: ${h.done.includes(d)?"done":"not done"}, streak ${streak(h)}`).join("; ");
+    await sample(`You are a direct, encouraging accountability coach. Today's data. Habits: ${hs}. Calories eaten: ${sum(foodToday(),"kcal")}${t?" of "+t.k+" target, protein "+sum(foodToday(),"p")+" of "+t.pr+" g":""}. Workouts logged: ${w.join("; ")||"none"}. Give feedback in under 90 words: one thing done well, one thing to fix today, one concrete next action. If little is logged, say so and give the first small step. Plain text, no markdown.`,{modelTier:"quick",onText:({text})=>{out.textContent=text}});
+  })};
+
+const CRIT="Give honest, specific, constructive feedback. Never insult, score, or rank someone's body, face or worth; focus on things they can change (style, fit, grooming, posture, training, wording, habits). Structure: what's working, the 3 highest-impact fixes with concrete how-to, and one quick win for today. Plain text, short, no markdown symbols. If they seem distressed about their body or eating, be gentle and suggest talking to someone they trust or a professional.";
+$("#critBtn").onclick=()=>{const out=$("#critOut"),f=$("#cphoto").files[0],txt=$("#ctext").value.trim();
+  if(!txt&&!f){out.textContent="Add notes or a photo first.";return}
+  run($("#critBtn"),out,async()=>{
+    $("#critBtns").innerHTML=$("#critMsg").innerHTML="";const o={onText:({text})=>{out.textContent=text}};if(f)o.images=[f];
+    const r=await sample(`${CRIT}\n\nCritique this: ${$("#ctype").value}.\nAbout them: ${ctx()}\n${f?"A photo is attached.\n":""}Their notes: ${txt||"(none)"}`,o);lastCrit=r.text;$("#critBtns").innerHTML='<button class="btn" id="mkH">Turn this into habits</button>';
+  })};
+
+let lastCrit="",fT=null;
+$("#critAct").addEventListener("click",e=>{if(e.target.id!=="mkH")return;const b=e.target;
+  run(b,$("#critMsg"),async()=>{
+    const d=await sample.json(`From this feedback, pick the 3 most useful small daily habits. Each name under 6 words, starting with a verb. Reply with only a JSON array of 3 strings.\n\n${lastCrit}`,{modelTier:"quick"});
+    (d||[]).slice(0,3).forEach((n,i)=>S.habits.push({id:Date.now()+i,name:String(n),done:[]}));
+    save();render();$("#critMsg").innerHTML='<p class="warn">Added to your habits on the Today tab.</p>';b.hidden=true;
+  })});
+$("#scan").onchange=e=>{const f=e.target.files[0];if(!f)return;
+  run(e.target,$("#foodMsg"),async()=>{
+    const d=await sample.json(`Look at this photo of a meal. Estimate the portion and nutrition for the whole plate. Reply with only JSON: {"name":"short description","kcal":0,"p":0,"c":0,"f":0}, whole numbers, protein/carbs/fat in grams.`,{images:[f]});
+    (S.food[day()]??=[]).push({name:d.name||"Meal",kcal:Math.round(d.kcal)||0,p:Math.round(d.p)||0,c:Math.round(d.c)||0,f:Math.round(d.f)||0});
+    save();e.target.value="";$("#foodMsg").innerHTML="";render();
+  })};
+$("#fStart").onclick=()=>{const m=+$("#fmin").value;let left=m*60;
+  const tick=()=>{$("#fClock").textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");
+    if(left--<=0){clearInterval(fT);$("#focus").hidden=true;S.focusMin=S.focusMin||{};S.focusMin[day()]=(S.focusMin[day()]||0)+m;save();render()}};
+  $("#focus").hidden=false;tick();fT=setInterval(tick,1000)};
+$("#fStop").onclick=()=>{clearInterval(fT);$("#focus").hidden=true;$("#focus").firstElementChild.textContent="One thing. Nothing else."};
+const weekWork=()=>{let n=0;for(let o=0;o<7;o++)n+=(S.work[day(o)]||[]).length;return n};
+function paintHud(){
+  const t=calc(),k=day(),kc=sum(foodToday(),"kcal"),w=(S.water||{})[k]||0;
+  const eat=t?Math.min(1,kc/t.k):0,wat=Math.min(1,w/2500);
+  const sl=(S.sleep||{})[k],sh=sl?sl.h:0,ch=(S.chatN||{})[k]||0,ww=weekWork();
+  const set=(id,p,txt)=>{$("#"+id+"F").style.width=Math.round(Math.min(1,p)*100)+"%";$("#"+id+"V").textContent=txt;$("#"+id+"F").closest(".hb").classList.toggle("full",p>=1)};
+  set("hc",ch/3,ch+" / 3 today");
+  set("hm",KID()?wat:(eat+wat)/2,(t&&!KID()?kc+" kcal · ":"")+(w/1000).toFixed(1)+" L");
+  set("hs",sh/(KID()?10:8),sl?sh+" h":"not logged");
+  {const wd=[0,1,2,3,4,5,6].filter(o=>(S.work[day(o)]||[]).length).length;KID()?set("hx",wd/5,wd+" / 5 active days"):set("hx",ww/3,ww+" / 3 this week")}
+  let xp=S.qxp||0;for(let o=0;o<60;o++)xp+=score(o);
+  const L=Math.floor(xp/300)+1;const rk=RANKS.find(r=>L>=r[0])[1];$("#lvl").textContent="LVL "+L+" · "+rk;
+  if(S.rank&&S.rank!==rk){ding();const t=document.createElement("div");t.id="rankUp";t.innerHTML="<b>Rank up: "+rk+"!</b>";document.body.append(t);setTimeout(()=>t.remove(),1500)}
+  if(S.rank!==rk){S.rank=rk;save()}
+  $("#xpF").style.width=(xp%300)/3+"%";$("#xpV").textContent=(xp%300)+" / 300 XP";
+}
+function paintSleep(){
+  $("#slChart").innerHTML=[6,5,4,3,2,1,0].map(o=>{const d=(S.sleep||{})[day(o)],h=d?d.h:0;
+    return `<div class="wb${o?"":" now"}"><span>${h||""}</span><i style="height:${Math.max(4,Math.min(1,h/9)*65)}px;${h&&h<6?"background:var(--hi)":""}"></i><span>${new Date(day(o)+"T12:00").toLocaleDateString(undefined,{weekday:"narrow"})}</span></div>`}).join("");
+}
+$(".hud").addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(!b)return;$(`nav button[data-t="${b.dataset.go}"]`).click();$("#"+b.dataset.go).scrollIntoView({behavior:"smooth"})});
+const slMin=()=>{const t=v=>{const [h,m]=(v||"0:0").split(":").map(Number);return h*60+m};return((t($("#slWake").value)-t($("#slBed").value))%1440+1440)%1440};
+const slShow=()=>{const m=slMin();$("#slCalc").innerHTML=`${Math.floor(m/60)} h ${m%60} min <span class="meta">slept</span>`};
+["slBed","slWake"].forEach(id=>$("#"+id).addEventListener("input",slShow));slShow();
+$("#slBtn").onclick=()=>{const m=slMin();if(m<30||m>16*60)return;S.sleep=S.sleep||{};S.sleep[day()]={h:Math.round(m/15)/4,q:$("#slQ").value,b:$("#slBed").value,w:$("#slWake").value};save();render()};
+$("#slAI").onclick=()=>{const out=$("#slOut"),rows=[6,5,4,3,2,1,0].map(o=>{const d=(S.sleep||{})[day(o)];return d?`${day(o)}: ${d.h} h, felt ${d.q}`:null}).filter(Boolean);
+  if(!rows.length){out.innerHTML='<p class="warn">Log at least one night first.</p>';return}
+  run($("#slAI"),out,async()=>{await sample(`You are a practical sleep coach. Last nights, oldest first:\n${rows.join("\n")}\nAbout them: ${ctx()}\nGive 4 specific, realistic tips under 120 words, based on the pattern you see. Plain text, no markdown. If they report struggling badly or often, suggest seeing a doctor.`,{modelTier:"quick",onText:({text})=>{out.textContent=text}})})};
+S.sess=S.sess||[];S.pr=S.pr||{};
+function paintSess(){
+  const g={};S.sess.forEach(x=>(g[x.ex]??=[]).push(x));
+  $("#sessList").innerHTML=Object.entries(g).map(([ex,a])=>`<div class="line" style="display:block"><b>${esc(ex)}</b>${a.map((x,i)=>`<div class="meta">Set ${i+1}: ${x.w?x.w+" kg":"bodyweight"} × ${x.r}${x.pr?' <b style="color:var(--c)">PR</b>':""}</div>`).join("")}</div>`).join("")||'<p class="meta">Add your first set.</p>';
+  const v=Math.round(S.sess.reduce((a,x)=>a+x.w*x.r,0));$("#sessVol").textContent=S.sess.length?S.sess.length+" sets, "+v+" kg total volume":"";
+}
+function paintExtras(){
+  paintSess();paintQuests();paintPhotos();paintPrefs();paintPlan();paintPrefs();
+  const t=calc();
+  $("#portions").textContent=KID()?"Build a colorful plate: fill half with fruits and veggies, a quarter with grains like rice, pasta or bread, and a quarter with protein like eggs, beans, fish or chicken. Add some dairy or a milk alternative, and drink water.":t?`Per meal, over 3 meals: ${Math.max(1,Math.round(t.pr/3/25))} palms of protein, ${Math.max(1,Math.round(t.carb/3/25))} cupped hands of carbs, ${Math.max(1,Math.round(t.fat/3/10))} thumbs of fat, and 1 to 2 fists of vegetables. Your hand is your scale.`:"Add your details to see your portions.";
+  const ws=S.weights,ema=[];ws.forEach((x,i)=>ema.push(i?ema[i-1]+(x.kg-ema[i-1])*.25:x.kg));
+  if(ws.length>1){const n=Math.min(7,ema.length-1),ch=ema[ema.length-1]-ema[ema.length-1-n];$("#trend").textContent=`Trend weight ${kg2disp(ema[ema.length-1]).toFixed(1)} ${S.unit}, ${ch>=0?"+":""}${kg2disp(ch).toFixed(1)} ${S.unit} over your last ${n} weigh-ins. The trend smooths out daily water swings.`}else $("#trend").textContent="";
+  const c=S.ch,el=$("#ch");
+  if(!c)el.innerHTML='<p class="meta">Show up for 90 days. A day counts when your score reaches 60.</p><button class="btn" id="chGo">Start challenge today</button>';
+  else{const n=Math.max(1,Math.min(90,Math.round((new Date(day()+"T12:00")-new Date(c+"T12:00"))/864e5)+1));let hit=0;for(let o=0;o<n;o++)if(score(o)>=60)hit++;
+    el.innerHTML=`<div class="kcal">Day ${n}<span class="meta"> of 90</span></div><div class="bar"><i style="width:${n/90*100}%;background:var(--c)"></i></div><div class="meta">${hit} of ${n} days hit. <button class="ghost" id="chGo">Restart</button></div>`}
+}
+$("#ch").addEventListener("click",e=>{if(e.target.id==="chGo"){S.ch=day();save();render()}});
+$("#setBtn").onclick=()=>{const ex=$("#exN").value.trim(),w=+$("#exW").value||0,r=+$("#exR").value;if(!ex||!r)return;
+  const e1=w?w*(1+r/30):r,pr=e1>(S.pr[ex]||0);if(pr)S.pr[ex]=e1;S.sess.push({ex,w,r,pr});save();$("#exR").value="";paintSess();rest(90)};
+$("#finBtn").onclick=()=>{if(!S.sess.length)return;const v=Math.round(S.sess.reduce((a,x)=>a+x.w*x.r,0));(S.work[day()]??=[]).push(`Lifting: ${S.sess.length} sets${v?", "+v+" kg":""}`);S.sess=[];save();render()};
+let rT=null;function rest(n){clearInterval(rT);$("#rest").textContent="Rest "+n+"s";rT=setInterval(()=>{n--;$("#rest").textContent=n>0?"Rest "+n+"s":"Go";if(n<=0)clearInterval(rT)},1000)}
+$("#w500").onclick=()=>{S.water=S.water||{};S.water[day()]=(S.water[day()]||0)+500;save();render()};
+const bed=()=>{const [h,m]=($("#wakeT").value||"07:00").split(":").map(Number),w=h*60+m;
+  $("#bedOut").innerHTML=(KID()?[7,6]:[6,5,4]).map(c=>{const t=((w-c*90-15)%1440+1440)%1440;return `<div class="line"><div class="grow"><b>${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}</b> <span class="meta">${c} cycles, ${c*1.5} h of sleep</span></div></div>`}).join("")};
+$("#wakeT").addEventListener("input",bed);bed();
+let gT=null;
+function playG(steps,st,m){let i=0,left=steps[0].s;const ov=$("#focus"),lab=ov.firstElementChild,clk=$("#fClock");ov.hidden=false;
+  const show=()=>{lab.textContent=steps[i].n+(steps[i+1]?"   next: "+steps[i+1].n:"");clk.textContent=left};show();
+  clearInterval(fT);fT=setInterval(()=>{if(--left<=0){if(++i>=steps.length){clearInterval(fT);ov.hidden=true;lab.textContent="One thing. Nothing else.";(S.work[day()]??=[]).push("Guided "+st+", "+m+" min");save();render();return}left=steps[i].s}show()},1000)}
+$("#gBtn").onclick=()=>run($("#gBtn"),$("#gOut"),async()=>{const st=$("#gType").value,m=+$("#gMin").value;
+  const d=await sample.json(`Design a ${m}-minute guided ${st} workout. About them: ${ctx()} ${KID()?"Use 6 to 10 playful moves a kid can do at home with no equipment (animal walks, jumping jacks, dance moves, balance games), described in kid-friendly words, with work times of 20 to 30 seconds and longer rests.":"Use 6 to 10 exercises, bodyweight unless their equipment allows more, safe for their level."} Reply only JSON {"steps":[{"name":"exercise","sec":40,"rest":15}]}`);
+  const steps=[];(d.steps||[]).forEach(x=>{steps.push({n:String(x.name),s:+x.sec||40});steps.push({n:"Rest",s:+x.rest||15})});
+  if(!steps.length)throw{};$("#gOut").innerHTML="";playG(steps,st,m)});
+$("#gluBtn").onclick=()=>run($("#gluBtn"),$("#gluOut"),async()=>{
+  const d=await sample.json(`Create a realistic 4-week glow-up plan covering skin, hair, grooming, style and fit, posture, fitness, sleep and confidence. About them: ${ctx()} Only things they can change with habits: no surgery, no extreme diets. Reply only JSON {"weeks":["Week 1: ...","Week 2: ...","Week 3: ...","Week 4: ..."],"habits":["habit under 6 words starting with a verb"]} with exactly 5 habits.`);
+  (d.habits||[]).slice(0,5).forEach((n,i)=>S.habits.push({id:Date.now()+i,name:String(n),done:[]}));save();render();
+  $("#gluOut").textContent=(d.weeks||[]).join("\n\n")+"\n\nAdded 5 daily habits to Today."});
+$("#eatBtn").onclick=()=>{const t=calc(),f=foodToday(),out=$("#eatOut");
+  run($("#eatBtn"),out,async()=>{
+    const left=t?`${t.k-sum(f,"kcal")} kcal and ${t.pr-sum(f,"p")} g protein left today`:"target unknown";
+    const d=await sample.json(`${KID()?"Suggest 5 fun, colorful, kid-friendly meal or snack ideas a kid can help make (say what a grown-up should do, like using the stove or knives). Give each a playful name and a short reason it is good for growing kids. No numbers or diet talk.":"Suggest 5 varied, realistic meal or snack ideas"} for right now (hour ${new Date().getHours()}). Remaining today: ${left}. About them: ${ctx()} They say: ${$("#eatWant").value||"nothing specific"}. Reply only JSON {"ideas":[{"name":"","why":"one short line","kcal":0,"p":0,"c":0,"f":0}]}`);
+    EI=d.ideas||[];
+    out.innerHTML=EI.map((m,i)=>`<div class="line"><div class="grow"><b>${esc(m.name)}</b><div class="meta">${esc(m.why)}</div><div class="meta nk">${esc(m.kcal)} kcal, ${esc(m.p)} g protein</div></div><button class="ghost nk" data-ei="${i}">Log</button></div>`).join("");
+  })};
+let EI=[];
+$("#eatOut").addEventListener("click",e=>{const m=EI[e.target.dataset.ei];if(!m)return;(S.food[day()]??=[]).push({name:m.name,kcal:+m.kcal||0,p:+m.p||0,c:+m.c||0,f:+m.f||0});save();render();e.target.textContent="Logged";e.target.disabled=true});
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+function mkChat(box,inp,btn,sys,extra){const tr=[];let bz=false,speak=false;
+  const go=async()=>{const q=inp.value.trim();if(!q||bz)return;
+    if(!sample){box.innerHTML='<div class="msg ai">Open this page inside Claude to chat.</div>';return}
+    bz=true;inp.value="";const me=document.createElement("div");me.className="msg me";me.textContent=q;const ai=document.createElement("div");ai.className="msg ai";ai.textContent="Thinking…";box.append(me,ai);tr.push({role:"user",content:q});
+    try{const {text}=await sample([{role:"user",content:(KID()?"You are a fun, safe kids' activity coach. Suggest playful games and bodyweight moves for a child using only what they have at home, no heavy weights, simple words, short answers. ":sys)+"\nAbout the user: "+ctx()+" "+extra()},{role:"assistant",content:"Understood."},...tr],{cache:false,modelTier:"quick",onText:({text})=>{ai.textContent=text}});tr.push({role:"assistant",content:text})}
+    catch(e){ai.textContent=copy(e&&e.code)||"Stopped.";tr.pop()}
+    bz=false};
+  const wrap=async()=>{await go();if(speak&&box.lastElementChild)try{speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(box.lastElementChild.textContent))}catch(e){}};
+  btn.onclick=wrap;inp.addEventListener("keydown",e=>{if(e.key==="Enter")wrap()});
+  wrap.setSpeak=v=>speak=v;
+  return wrap}
+$("#eqHave").value=S.eq||"";$("#eqHave").addEventListener("input",e=>{S.eq=e.target.value;save()});
+const recentWork=()=>[6,5,4,3,2,1,0].map(o=>`${day(o)}: ${(S.work[day(o)]||[]).join("; ")||"rest"}`).join("\n");
+const trainGo=mkChat($("#tchat"),$("#tq"),$("#tqBtn"),"You are a practical strength and conditioning coach talking to someone mid-workout. They describe their exercise, reps and how it feels; you do not see them. Point out likely form mistakes for that description and one fix, give encouragement, and tell them what to do next. Keep replies under 60 words, plain spoken language, no markdown. If they mention pain, tell them to stop and rest.",()=>`Equipment they have: ${$("#eqHave").value||prof().equip}. Recent workouts:\n${recentWork()}`);
+if(SR){
+  $("#micBtn").hidden=false;
+  let listening=false,micDead=false;
+  const freshRec=()=>{const r=new SR();r.lang="en-US";r.interimResults=false;
+    r.onresult=e=>{$("#tq").value=e.results[0][0].transcript;trainGo()};
+    r.onend=()=>{listening=false;$("#micBtn").textContent="\ud83c\udfa4"};
+    r.onerror=e=>{listening=false;$("#micBtn").textContent="\ud83c\udfa4";
+      if(e.error==="not-allowed"||e.error==="service-not-allowed"){
+        micDead=true;$("#micBtn").hidden=true;
+        $("#voiceNote").textContent="This app can't reach your microphone here — that's a permission Claude's viewer doesn't grant, not something on your end. Type to the coach instead, or turn on Speak replies to still hear it talk back.";
+      }else if(e.error==="no-speech"){
+        $("#voiceNote").textContent="Didn't catch that — tap the mic and try again.";
+      }else{
+        $("#voiceNote").textContent="Voice input hit a snag. You can keep typing to the coach.";
+      }
+    };
+    return r};
+  $("#micBtn").onclick=()=>{if(listening||micDead)return;listening=true;$("#micBtn").textContent="\u25cf";
+    try{freshRec().start()}catch(err){listening=false;$("#micBtn").textContent="\ud83c\udfa4";$("#voiceNote").textContent="Couldn't start the microphone here. You can keep typing to the coach."}};
+}else{$("#voiceNote").textContent="Voice input isn't supported in this browser; you can still type to the coach.";}
+$("#voiceT").addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(!b)return;
+  $$("#voiceT button").forEach(x=>x.classList.toggle("on",x===b));trainGo.setSpeak(b.dataset.v==="on")});
+["What workout should I do today?","Build me a 3-day plan with my equipment","Swap an exercise I can't do","How do I progress each week?"].forEach(t=>{const b=document.createElement("button");b.className="ghost";b.textContent=t;b.onclick=()=>{$("#tq").value=t;trainGo()};$("#tchips").append(b)});
+$("#coachBtn").onclick=()=>{const out=$("#coachOut");run($("#coachBtn"),out,async()=>{
+  const pr=Object.entries(S.pr).slice(-8).map(([k,v])=>`${k} ~${Math.round(v)}`).join(", ")||"none",sl=[6,5,4,3,2,1,0].map(o=>((S.sleep||{})[day(o)]||{}).h).filter(Boolean);
+  await sample(`You are a direct, encouraging strength coach reviewing the user's week. Workouts:\n${recentWork()}\nBest estimated 1RMs: ${pr}. Average sleep: ${sl.length?(sl.reduce((a,b)=>a+b,0)/sl.length).toFixed(1)+" h":"unknown"}. About them: ${ctx()} Equipment: ${$("#eqHave").value||prof().equip}. In under 140 words: what is going well, what is missing (balance, recovery, progression), and exactly what to train next session. Plain text, no markdown.`,{modelTier:"quick",onText:({text})=>{out.textContent=text}})})};
+const KIDSAFE="IMPORTANT: The user is under 18. Keep everything age-appropriate and encouraging. Never suggest dieting, calorie restriction, weight loss, supplements, extreme training or maxing out. Do not rate or critique body shape, weight or attractiveness; focus on healthy habits, strength, energy, sleep, hygiene, style and confidence. For body, food or health worries, gently suggest talking to a parent, trusted adult or doctor. ";
+const ADCH=["How can I be more attractive?","Critique my outfit (attach a photo)","Am I eating enough protein today?","How's my posture? (attach a photo)","Build me a 4-week glow-up plan"],KIDCH=["What game can I play to get moving?","How much water should I drink?","Give me a fun snack idea","Why is sleep important?"];
+const KMEAL=()=>`You are a friendly nutrition helper for kids. About the child: ${ctx()} Plan one fun day of eating: breakfast, lunch, dinner and 2 snacks made of simple foods from all food groups, with a fruit or veggie at each meal, easy for a kid to help make with a grown-up. Give each meal a playful name. No calorie, diet or weight talk.`;
+const KMOVE=()=>`You are a fun kids' activity coach. About the child: ${ctx()} Design a playful weekly plan: 4 to 5 active days of games and bodyweight moves (animal walks, jumping, skipping, dancing, obstacle courses, tag, bike or scooter), no heavy weights, nothing maxed out, short fun sessions with stretching, aiming for about 60 minutes of active play a day overall. Plus 4 fun ideas for the other days.`;
+const MINOR=()=>{const a=+$("#age").value;return a>=12&&a<18};
+function applyMode(){
+  const a=+$("#age").value,m=MINOR();document.body.classList.toggle("minor",m);
+  $("#ageBlock").hidden=!(a>0&&a<12);
+  [$("#wtIn").closest("details"),$("#trend")].forEach(e=>e&&e.classList.add("au"));
+  const g=$("#goal");[...g.options].forEach(o=>{if(o.value==="lose")o.hidden=o.disabled=m});
+  if(m&&g.value==="lose"){g.value="maintain";S.prof.goal="maintain";save()}
+}
+const DQ=[["Move for 20 minutes",30],["Drink 8 glasses of water",20],["Write 3 things you’re grateful for",25],["Stretch for 5 minutes",15],["Sleep at least 8 hours",30]];
+const RANKS=[[40,"Legend"],[30,"Diamond"],[22,"Platinum"],[15,"Gold"],[9,"Silver"],[4,"Bronze"],[1,"Rookie"]];
+const avg14=()=>Math.round([...Array(14).keys()].reduce((a,o)=>a+score(o),0)/14);
+const DN=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const DORD=[1,2,3,4,5,6,0];
+let PD=[];
+let CF=null;
+function paintPlan(){
+  const wd=new Date().getDay(),today=day(),d=((S.qd||{})[today])||[];
+  const rows=[];
+  S.habits.forEach(h=>rows.push({kind:"habit",id:h.id,name:h.name,done:h.done.includes(today),tag:"Habit"}));
+  (S.quests||[]).forEach(q=>rows.push({kind:"quest",id:q.id,xp:q.xp,name:q.name,done:d.includes(q.id),tag:"+"+q.xp+" XP"}));
+  (S.chores||[]).forEach(c=>{if(!c.days.length||c.days.includes(wd))rows.push({kind:"chore",id:"c"+c.id,xp:20,name:c.name,done:d.includes("c"+c.id),tag:"+20 XP"})});
+  rows.sort((a,b)=>a.done-b.done);
+  $("#plan").innerHTML=rows.length?rows.map(r=>`<div class="line"><input type="checkbox" id="pl${r.kind}${r.id}" data-pk="${r.kind}" data-pid="${r.id}" data-pxp="${r.xp||0}" ${r.done?"checked":""}><label for="pl${r.kind}${r.id}">${esc(r.name)}</label><span class="meta">${r.tag}</span></div>`).join(""):'<p class="meta">Add a habit, quest or chore below to build today\'s plan.</p>';
+}
+$("#plan").addEventListener("change",e=>{const c=e.target,kind=c.dataset.pk,id=c.dataset.pid;if(!kind)return;
+  if(kind==="habit"){const h=S.habits.find(x=>x.id==id);if(!h)return;const d2=day();h.done=c.checked?[...new Set([...h.done,d2])]:h.done.filter(x=>x!==d2)}
+  else{S.qd=S.qd||{};const a=S.qd[day()]=S.qd[day()]||[],x=+c.dataset.pxp;
+    if(c.checked&&!a.includes(id)){a.push(id);S.qxp=(S.qxp||0)+x}else if(!c.checked&&a.includes(id)){a.splice(a.indexOf(id),1);S.qxp=Math.max(0,(S.qxp||0)-x)}}
+  save();render()});
+function paintQuests(){
+  if(!S.chores||typeof S.chores[0]==="string")S.chores=(S.chores||["Make your bed","Do the dishes","Tidy your room","Take out the trash"]).map((n,i)=>({id:i+1,name:typeof n==="string"?n:n.name,days:[]}));
+  const d=((S.qd||{})[day()])||[],wd=new Date().getDay(),i2={};
+  const qrow=(id,n,xp)=>{i2.n=(i2.n||0)+1;return `<div class="line"><input type="checkbox" id="qc${i2.n}" data-q="${esc(id)}" data-xp="${xp}" ${d.includes(id)?"checked":""}><label for="qc${i2.n}">${esc(n)}</label><span class="meta">+${xp} XP</span></div>`};
+  S.quests=S.quests||DQ.map(([n,x],k)=>({id:"q"+k,name:n,xp:x}));
+  $("#qList").innerHTML=S.quests.map(q=>`<div class="line"><input type="checkbox" id="qc${q.id}" data-q="${q.id}" data-xp="${q.xp}" ${d.includes(q.id)?"checked":""}><label for="qc${q.id}">${esc(q.name)}</label><span class="meta">+${q.xp} XP</span><button class="x" data-rmq="${q.id}" aria-label="Remove quest">×</button></div>`).join("")||'<p class="meta">Add your first quest below.</p>';
+  if(CF==null)CF=wd;
+  $("#cfDays").innerHTML=DORD.map(i=>`<button type="button" class="dchip${i===CF?" on":""}${i===wd?" cur":""}" data-cf="${i}">${DN[i][0]}</button>`).join("");
+  const vis=S.chores.filter(c=>!c.days.length||c.days.includes(CF));
+  $("#chList").innerHTML=vis.map(c=>{const id="c"+c.id,tag=c.days.length?c.days.map(x=>DN[x]).join(", "):"Every day";
+    return `<div class="line"><input type="checkbox" id="qc${id}" data-q="${id}" data-xp="20" ${d.includes(id)?"checked":""} ${CF===wd?"":"disabled"}><div class="grow"><label for="qc${id}"><b>${esc(c.name)}</b></label><span class="dtag">${tag}</span></div><span class="meta">+20 XP</span><button class="x" data-rm="${c.id}" aria-label="Remove chore">×</button></div>`}).join("")||`<p class="meta">No chores for ${DN[CF]}. Add one below.</p>`;
+  $("#rankList").innerHTML=RANKS.slice().reverse().map(([l,n])=>`<div class="line"><div class="grow"><b>${n}</b></div><span class="meta">Level ${l}+</span></div>`).join("");
+  const av=avg14();$("#potPct").textContent=av+"%";$("#potBar").style.width=av+"%";
+}
+$("#quests").addEventListener("change",e=>{const c=e.target,id=c.dataset.q;if(!id)return;S.qd=S.qd||{};const a=S.qd[day()]=S.qd[day()]||[],x=+c.dataset.xp;
+  if(c.checked&&!a.includes(id)){a.push(id);S.qxp=(S.qxp||0)+x}else if(!c.checked&&a.includes(id)){a.splice(a.indexOf(id),1);S.qxp=Math.max(0,(S.qxp||0)-x)}
+  save();render()});
+$("#quests").addEventListener("click",e=>{const id=e.target.dataset.rm,qid=e.target.dataset.rmq;
+  if(id!=null){S.chores=S.chores.filter(c=>c.id!=id);save();render()}
+  if(qid!=null){S.quests=S.quests.filter(q=>q.id!==qid);save();render()}});
+$("#qAdd").onclick=()=>{const v=$("#qNew").value.trim();if(!v)return;S.quests=[...(S.quests||[]),{id:"u"+Date.now(),name:v,xp:20}];$("#qNew").value="";save();render()};
+$("#cfDays").addEventListener("click",e=>{const b=e.target.closest("[data-cf]");if(!b)return;CF=+b.dataset.cf;paintQuests()});
+$("#chAdd").onclick=()=>{const v=$("#chNew").value.trim();if(!v)return;S.chores=[...(S.chores||[]),{id:Date.now(),name:v,days:[]}];$("#chNew").value="";save();render()};
+$("#cashBtn").onclick=()=>run($("#cashBtn"),$("#cashOut"),async()=>{const o=$("#cashOut");
+  await sample(`Suggest 8 safe, legal, realistic ways for someone this age to earn money. About them: ${ctx()} For each: what to do, a rough starting price range, and the first step. Say when a parent's permission is needed. If under 18: no online strangers, no risky or adult-only work, never share personal info. Plain text, no markdown.`,{modelTier:"quick",onText:({text})=>{o.textContent=text}})});
+$("#potBtn").onclick=()=>run($("#potBtn"),$("#potOut"),async()=>{const o=$("#potOut");
+  await sample(`Their last 14 days: ${avg14()}% consistency with habits, food, workouts and sleep. Recent workouts:\n${recentWork()}\nAbout them: ${ctx()} Give three short sections titled Workouts (3 sessions they can do with their equipment), Glow-up tips (5: skin, hair, sleep, posture, style) and How to be successful (5 habits for school or work, energy and confidence). Age-appropriate, specific, encouraging. Plain text.`,{modelTier:"quick",onText:({text})=>{o.textContent=text}})});
+$("#hairBtn").onclick=()=>run($("#hairBtn"),$("#hairOut"),async()=>{const f=$("#hairPhoto").files[0],o={onText:({text})=>{$("#hairOut").textContent=text}};if(f)o.images=[f];
+  await sample(`You are a friendly hairstylist. Suggest 5 hairstyles that would suit them, based on ${f?"the attached photo (face shape, hair type) and ":""}what they said: ${$("#hairNote").value||"nothing"}. About them: ${ctx()} For each: the name, why it suits them, how to ask a barber or stylist for it, and how to style it at home. Be kind and specific, and do not rate their looks. Plain text.`,o)});
+$("#cookBtn").onclick=()=>{const v=$("#cookIn").value.trim();run($("#cookBtn"),$("#cookOut"),async()=>{const o=$("#cookOut");
+  await sample(v?`Teach a beginner how to cook: ${v}. Give ingredients with amounts, numbered steps with times and heat levels, 3 tips to make it taste better, and safety notes (knives, hot pans, raw meat). About them: ${ctx()} If they are under 18, say when to ask an adult for help. Plain text.`:`Give 6 practical beginner cooking tips (knife skills, seasoning, heat, timing, food safety, easy meals). About them: ${ctx()} Plain text.`,{modelTier:"quick",onText:({text})=>{o.textContent=text}})})};
+function paintNudge(){
+  const t=calc(),k=day(),w=(S.water||{})[k]||0,items=[];
+  if(t&&sum(foodToday(),"kcal")===0)items.push("log a meal");
+  if(w<2500*.5)items.push("drink some water");
+  if(!(S.sleep||{})[k])items.push("log last night's sleep");
+  const chToday=(S.chores||[]).filter(c=>!c.days.length||c.days.includes(new Date().getDay()));
+  const doneIds=((S.qd||{})[k])||[],left=chToday.filter(c=>!doneIds.includes("c"+c.id)).length;
+  if(left)items.push(left+" chore"+(left>1?"s":"")+" left today");
+  $("#nudge").innerHTML=items.length?`<div class="warn">Still todo: ${items.join(", ")}.</div>`:"";
+}
+let HO=0;
+function paintHist(){
+  const sel=$("#histSel");if(!sel.options.length)sel.innerHTML=[...Array(7).keys()].map(i=>7+i).map(o=>`<option value="${o}">${day(o)}</option>`).join("");
+  $("#histDays").innerHTML=[6,5,4,3,2,1,0].map(o=>`<button type="button" class="dchip${o===HO?" on":""}" data-ho="${o}">${o===0?"•":new Date(day(o)+"T12:00").toLocaleDateString(undefined,{weekday:"narrow"})}</button>`).join("");
+  const o=HO,k=day(o),f=S.food[k]||[],wk=S.work[k]||[],sl=(S.sleep||{})[k],hb=S.habits.filter(h=>h.done.includes(k)).length;
+  const row=(l,v)=>`<div class="line"><div class="grow">${l}</div><b>${v}</b></div>`;
+  $("#histCard").innerHTML=`<div class="kcal" style="margin-top:12px">${score(o)}<span class="meta" style="font-size:.85rem;font-weight:400"> score · ${o===0?"Today":day(o)}</span></div>`
+    +row("Habits",hb+" / "+S.habits.length)+row("Food",sum(f,"kcal")+" kcal")+row("Water",((S.water||{})[k]||0)+" ml")
+    +row("Workouts",wk.length?wk.join("; "):"None")+row("Sleep",sl?sl.h+" h":"Not logged");
+}
+$("#histDays").addEventListener("click",e=>{const b=e.target.closest("[data-ho]");if(!b)return;HO=+b.dataset.ho;paintHist()});
+$("#histSel").addEventListener("change",()=>{HO=+$("#histSel").value;paintHist()});
+$("#expBtn").onclick=()=>{const a=$("#expOut");$("#expWrap").hidden=false;a.value=btoa(unescape(encodeURIComponent(JSON.stringify(S))));a.select()};
+$("#cpBtn").onclick=async()=>{const a=$("#expOut");a.select();try{await navigator.clipboard.writeText(a.value);$("#cpMsg").textContent="Copied."}catch(e){document.execCommand("copy");$("#cpMsg").textContent="Copied."}setTimeout(()=>$("#cpMsg").textContent="",2000)};
+$("#impBtn").onclick=()=>{const m=$("#impMsg");try{const o=JSON.parse(decodeURIComponent(escape(atob($("#impIn").value.trim()))));S=o;save();m.textContent="Restored.";fields.forEach(f=>{if(S.prof[f.id]!=null)f.value=S.prof[f.id]});render()}catch(e){m.textContent="That code didn't look right."}};
+function ding(){try{navigator.vibrate&&navigator.vibrate([40,60,40]);const c=new (window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=660;o.connect(g);g.connect(c.destination);g.gain.setValueAtTime(.06,c.currentTime);o.start();o.frequency.exponentialRampToValueAtTime(990,c.currentTime+.15);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.35);o.stop(c.currentTime+.36)}catch(e){}}
+function paintPhotos(){
+  S.photos=S.photos||[];
+  $("#pgGallery").innerHTML=S.photos.map(p=>`<div class="pfig"><img src="${p.src}"><span>${p.d}</span></div>`).join("");
+  if(S.photos.length>1){const a=S.photos[0],b=S.photos[S.photos.length-1];
+    $("#pgCmp").innerHTML=`<div class="cmp"><div><img src="${a.src}"><div class="meta">${a.d}</div></div><div><img src="${b.src}"><div class="meta">${b.d}</div></div></div>`;
+  }else $("#pgCmp").innerHTML="";
+}
+$("#pgPhoto").onchange=e=>{const f=e.target.files[0];if(!f)return;
+  const img=new Image(),rd=new FileReader();
+  rd.onload=()=>{img.onload=()=>{const s2=480/Math.max(img.width,img.height),c=document.createElement("canvas");c.width=img.width*s2;c.height=img.height*s2;
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+    S.photos=S.photos||[];S.photos.push({d:day(),src:c.toDataURL("image/jpeg",.72)});
+    if(S.photos.length>12)S.photos.shift();save();paintPhotos()};img.src=rd.result};
+  rd.readAsDataURL(f);e.target.value=""};
+$("#qsPosture").onclick=()=>{$("#ctype").value="Posture (photo)";$("#cphoto").closest("label").scrollIntoView({behavior:"smooth"})};
+$("#qsPhysique").onclick=()=>{$("#ctype").value="Physique progress (photo)";$("#cphoto").closest("label").scrollIntoView({behavior:"smooth"})};
+$("#shareBtn").onclick=async()=>{
+  const best=Math.max(0,...S.habits.map(h=>streakInfo(h).n)),xp=S.qxp||0;let tot=0;for(let o=0;o<60;o++)tot+=score(o);
+  const L=Math.floor(tot/300)+1,rk=RANKS.find(r=>L>=r[0])[1];
+  const txt=`I'm level ${L} (${rk}) on Aura \u2014 ${best}-day streak, day score ${score(0)} today. Keeping myself honest one day at a time.`;
+  try{await navigator.clipboard.writeText(txt);$("#shareMsg").textContent="Copied."}catch(e){$("#shareMsg").textContent=txt}
+  setTimeout(()=>$("#shareMsg").textContent="",2500)};
+let REC=[];
+$("#recent").addEventListener("click",e=>{const x=REC[e.target.dataset.rc];if(!x)return;(S.food[day()]??=[]).push({...x});save();render()});
+$("#w250").onclick=()=>{S.water=S.water||{};S.water[day()]=(S.water[day()]||0)+250;save();render()};
+$("#cimg").onchange=e=>{$("#cimgL").firstChild.textContent=e.target.files[0]?"Photo added":"Photo"};
+function addHab(text,ai){const b=document.createElement("button"),m=document.createElement("div");b.className="ghost";b.style.marginTop="8px";b.textContent="Turn into habits";m.className="meta";ai.append(document.createElement("br"),b,m);
+  b.onclick=()=>run(b,m,async()=>{const d=await sample.json(`From this advice, pick the 3 most useful small daily habits. Each under 6 words, starting with a verb. Reply with only a JSON array of 3 strings.\n\n${text}`,{modelTier:"quick"});
+    (d||[]).slice(0,3).forEach((n,i)=>S.habits.push({id:Date.now()+i,name:String(n),done:[]}));save();render();m.textContent="Added to your habits on Today.";b.remove()})}
+const RULES="You are a warm, straight-talking coach helping the user become healthier, more confident and more attractive. Give honest, evidence-based, practical advice on grooming, skin, hair, style and fit, posture, fitness, sleep, body language, conversation and confidence. Emphasize habits over appearance, and kindness and presence over tricks. Never push extreme diets, cosmetic surgery, or manipulative tactics; if they sound distressed about their body or eating, respond gently and suggest someone they trust or a professional. Under 200 words, concrete and actionable.";
+const turns=[];let busy=false;
+["How can I be more attractive?","Critique my outfit (attach a photo)","Am I eating enough protein today?","How's my posture? (attach a photo)","Build me a 4-week glow-up plan"].forEach(t=>{const b=document.createElement("button");b.className="ghost";b.textContent=t;b.onclick=()=>{$("#q").value=t;ask()};$("#chips").append(b)});
+async function ask(){
+  const f=$("#cimg").files[0],q=$("#q").value.trim()||(f?"Critique this photo.":"");if(!q||busy)return;
+  if(!sample){$("#chat").innerHTML='<div class="msg ai">Open this page inside Claude to chat.</div>';return}
+  busy=true;$("#q").value="";$("#cimg").value="";$("#cimgL").firstChild.textContent="Photo";
+  const me=document.createElement("div");me.className="msg me";me.textContent=q+(f?"  [photo]":"");
+  const ai=document.createElement("div");ai.className="msg ai";ai.textContent="Thinking…";
+  $("#chat").append(me,ai);S.chatN=S.chatN||{};S.chatN[day()]=(S.chatN[day()]||0)+1;save();paintHud();turns.push({role:"user",content:q+(f?" [photo attached]":"")});
+  try{
+    const {text}=await sample([{role:"user",content:RULES+" "+CRIT+"\nAbout the user: "+ctx()+` Today so far: ${sum(foodToday(),"kcal")} kcal eaten, ${S.habits.filter(h=>h.done.includes(day())).length}/${S.habits.length} habits done, ${(S.work[day()]||[]).length} workouts logged, sleep last night: ${((S.sleep||{})[day()]||{}).h||"not logged"} h.`},{role:"assistant",content:"Understood."},...turns],{cache:false,modelTier:f?"default":"quick",...(f?{images:[f]}:{}),onText:({text})=>{ai.textContent=text}});
+    turns.push({role:"assistant",content:text});if(text.length>200)addHab(text,ai);
+  }catch(e){ai.textContent=copy(e&&e.code)||"Stopped.";turns.pop()}
+  busy=false;
+}
+$("#qBtn").onclick=ask;$("#q").addEventListener("keydown",e=>{if(e.key==="Enter")ask()});
+
+applyMode();$("#age").addEventListener("input",()=>{applyMode();render()});$("#goal").addEventListener("change",applyMode);$("#ageFix").onclick=()=>{$("#age").value="";S.prof.age="";save();applyMode();render()};
+const youOk=()=>/\S+@\S+\.\S+/.test($("#email").value)&&+$("#age").value>=12&&+$("#ht").value&&+$("#wt").value;
+const youShow=on=>{$("#you").hidden=!on;$("#editYou").hidden=on;if(on)$("#you").open=true};
+const lockUpdate=()=>document.body.classList.toggle("locked",!(S.ready&&youOk()));
+if(youOk())S.ready=true;youShow(!S.ready);lockUpdate();fields.forEach(f=>f.addEventListener("input",lockUpdate));
+$("#youDone").onclick=()=>{if(youOk()){S.ready=true;save();youShow(false);lockUpdate()}};
+$("#editYou").onclick=()=>{youShow(true);$("#you").scrollIntoView({behavior:"smooth"})};
+function paintPrefs(){
+  $$("#themeT button").forEach(b=>b.classList.toggle("on",b.dataset.th===S.theme));
+  $$("#unitT button").forEach(b=>b.classList.toggle("on",b.dataset.u===S.unit));
+  const wl=$("#wt").closest("label");if(wl)wl.firstChild.textContent="Weight ("+S.unit+")";
+  $("#wtIn").placeholder="Today's weight ("+S.unit+")";
+}
+$("#themeT").addEventListener("click",e=>{const b=e.target.closest("[data-th]");if(!b)return;S.theme=b.dataset.th;document.documentElement.dataset.theme=S.theme;save();paintPrefs()});
+$("#unitT").addEventListener("click",e=>{const b=e.target.closest("[data-u]");if(!b)return;S.unit=b.dataset.u;save();paintPrefs();render()});
+if(new URLSearchParams(location.search).get("watch")==="1")document.body.classList.add("watchmode");
+render();
+(async()=>{
+  initCloud();
+  try{sample=window.claude?await window.claude.use("sample"):null}catch(e){}
+  if(sample){const raw=sample,kc=a=>typeof a==="string"?KIDSAFE+a+" Reminder: "+KIDSAFE:a.map((m,i)=>i===0||i===a.length-1?{...m,content:(i===0?KIDSAFE:"")+m.content+(i===a.length-1?" [Reminder: "+KIDSAFE+"]":"")}:m);
+    const w=(a,o)=>raw(MINOR()?kc(a):a,o);w.json=(a,o)=>raw.json(MINOR()?kc(a):a,o);w.limits=()=>raw.limits();sample=w}
+  if(!sample){$("#nosample").hidden=false;return}
+  try{const c=await sample.limits();if(!c.images)$("#photoWrap").hidden=$("#scanWrap").hidden=$("#cimgL").hidden=true}catch(e){$("#photoWrap").hidden=$("#scanWrap").hidden=$("#cimgL").hidden=true}
+})();
+</script>
+</body>
+</html>
